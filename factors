@@ -1,35 +1,34 @@
 #!/usr/bin/python3
-import sys
+from sys import argv, exit
 
 
-def factorize(num):
-    """Factorize a number into two factors.
+def factorize(number_to_check):
+    """Find two small numbers that multiply to give a given number.
 
     Args:
-        num (int): The number to factorize.
-
-    Returns:
-        tuple: A tuple containing the two factors.
+        number_to_check (int): The number to factorize.
     """
-    factor1 = 2
-    while num % factor1:
-        factor1 += 1
+    i = 2
 
-    factor2 = num // factor1
-    return factor2, factor1
+    if number_to_check < 2:
+        return
+
+    while number_to_check % i:
+        i += 1
+    print("{:.0f}={:.0f}*{:.0f}".format(number_to_check, number_to_check / i, i))
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit(f"Wrong usage: {sys.argv[0]} <file_path>")
-
-    filename = sys.argv[1]
+    if len(argv) != 2:
+        exit()
 
     try:
-        with open(filename, 'r') as file:
-            for line in file:
-                num = int(line.strip())
-                factor2, factor1 = factorize(num)
-                print(f"{num} = {factor2} * {factor1}")
+        with open(argv[1]) as file:
+            line = file.readline()
+
+            while line:
+                number_to_check = int(line.strip())
+                factorize(number_to_check)
+                line = file.readline()
     except FileNotFoundError:
-        sys.exit(f"File not found: {filename}")
+        pass
